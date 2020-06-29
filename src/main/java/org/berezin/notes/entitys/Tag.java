@@ -1,11 +1,10 @@
-package org.berezin.notes.entity;
+package org.berezin.notes.entitys;
 
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.util.Date;
 
 @Entity
 public class Tag {
@@ -23,15 +22,13 @@ public class Tag {
     public long getId() {
         return id;
     }
-
     public String getName() {
         return name;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-
     public void setName(String name) {
         this.name = name;
     }

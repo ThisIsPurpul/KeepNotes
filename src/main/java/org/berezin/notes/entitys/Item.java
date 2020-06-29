@@ -1,10 +1,7 @@
-package org.berezin.notes.entity;
-
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package org.berezin.notes.entitys;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Item {
@@ -51,13 +48,13 @@ public class Item {
     public void setId(Long id) {
         this.id = id;
     }
-        public void setTitle(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
     public void setDescription(String description) {
         this.description = description;
     }
-        public void setActive(Boolean isActive){
+    public void setActive(Boolean isActive){
         this.isActive = isActive;
     }
     public void setDoDate(Date doDate) {

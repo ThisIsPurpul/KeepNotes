@@ -1,6 +1,6 @@
 package org.berezin.notes.repositories;
 
-import org.berezin.notes.entity.Tag;
+import org.berezin.notes.entitys.Tag;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
