@@ -1,4 +1,4 @@
-package org.berezin.notes.entitys;
+package org.berezin.notes.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

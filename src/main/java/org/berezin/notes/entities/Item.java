@@ -1,4 +1,4 @@
-package org.berezin.notes.entitys;
+package org.berezin.notes.entities;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,12 +9,12 @@ public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private long tagId;
+    private Long tagId;
 
     private String title;
     private String description;
     private Boolean isActive;
-    private Date doDate;
+    private Date dueDate;
 
     public Item() {};
 
@@ -22,7 +22,7 @@ public class Item {
         this.title = title;
         this.description = description;
         this.isActive = isActive;
-        this.doDate = doDate;
+        this.dueDate = dueDate;
         this.tagId = tagId;
     }
 
@@ -39,7 +39,7 @@ public class Item {
         return isActive;
     }
     public Date getDoDate() {
-        return doDate;
+        return dueDate;
     }
     public Long getTagIds() {
         return tagId;
@@ -58,7 +58,7 @@ public class Item {
         this.isActive = isActive;
     }
     public void setDoDate(Date doDate) {
-        this.doDate = doDate;
+        this.dueDate = doDate;
     }
     public void setTagIds(Long tagId) {
         this.tagId = tagId;

@@ -1,6 +1,6 @@
 package org.berezin.notes.repositories;
 
-import org.berezin.notes.entitys.Customer;
+import org.berezin.notes.entities.Customer;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
