@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface ItemRepo extends CrudRepository<Item, Long> {
     List<Item> findByTitle(String title);
-    List<Item> findByActive(String isActive);
     List<Item> findByTagId(Long tagId);
 }

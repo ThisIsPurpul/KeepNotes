@@ -1,4 +1,4 @@
-package org.berezin.notes.apps;
+package org.berezin.notes;
 
 import org.berezin.notes.entities.Item;
 import org.berezin.notes.repositories.ItemRepo;
@@ -22,14 +22,14 @@ public class MainApp {
 
         Iterable<Item> allItems = itemRepo.findAll();
         for (Item item : allItems) {
-            System.out.println(item);
+            System.out.println(item.getTitle());
         }
 
         itemRepo.deleteAll();
         itemRepo.save(new Item("newTitle", "newDescription", true, new Date(1555), 1666L));
         allItems = itemRepo.findAll();
         for (Item item : allItems) {
-            System.out.println(item);
+            System.out.println(item.getTitle());
         }
 
         context.close();
