@@ -18,13 +18,16 @@ public class Item {
 
     public Item() {};
 
-    public Item(String title, String description, Boolean isActive, Date doDate, Long tagId) {
+    public Item(Long id, String title, String description, Boolean isActive, Date dueDate, Long tagId) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.isActive = isActive;
         this.dueDate = dueDate;
         this.tagId = tagId;
     }
+
+    //Todo: связать айтем и тэг
 
     public Long getId() {
         return id;

@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Test page</title>
+        <meta charset = "UTF-8"/>
+    </head>
+    <body>
+        <div th:each="item: ${items}">
+            <a th:href="@{/item/{id} (id=${item.getId()})}" th:utext="${item.getTitle()}"></a>
+        </div>
+    </body>
+</html>

@@ -18,7 +18,7 @@ public class MainApp {
 
         ItemRepo itemRepo = context.getBean(ItemRepo.class);
 
-        itemRepo.save(new Item("Title", "Description", true, new Date(1555), 1555L));
+        itemRepo.save(new Item(1L, "Title", "Description", true, new Date(1555), 11L));
 
         Iterable<Item> allItems = itemRepo.findAll();
         for (Item item : allItems) {
@@ -26,12 +26,15 @@ public class MainApp {
         }
 
         itemRepo.deleteAll();
-        itemRepo.save(new Item("newTitle", "newDescription", true, new Date(1555), 1666L));
+        itemRepo.save(new Item(2L,"1Title", "1Description", true, new Date(1555), 12L));
+        itemRepo.save(new Item(3L,"2Title", "2Description", false, new Date(1666), 13L));
+        itemRepo.save(new Item(4L,"3Title", "3Description", true, new Date(1777), 14L));
+        itemRepo.save(new Item(5L,"4Title", "4Description", false, new Date(1888), 15L));
         allItems = itemRepo.findAll();
         for (Item item : allItems) {
             System.out.println(item.getTitle());
         }
 
-        context.close();
+        //context.close();
     }
 }
