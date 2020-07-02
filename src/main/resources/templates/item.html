@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+
     <head>
-        <title>Test page</title>
-        <meta charset = "UTF-8"/>
+        <meta charset="UTF-8">
+        <title>Items</title>
     </head>
+
     <body>
         <div th:each="item: ${items}">
-            <a th:href="@{/item/{id} (id=${item.getId()})}" th:utext="${item.getTitle()}"></a>
+            <p th:utext="${item.getName()}"></p>
         </div>
     </body>
+
 </html>
