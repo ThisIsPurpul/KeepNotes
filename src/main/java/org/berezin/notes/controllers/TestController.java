@@ -20,9 +20,11 @@ import java.util.Map;
 public class TestController {
     @Autowired
     private TagRepo tagRepo;
+    @Autowired
     private ItemRepo itemRepo;
 
-    @RequestMapping(value = "/test-page", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/tag", method = RequestMethod.GET)
     public String getIndex(Model model) {
         Iterable<Tag> tags = tagRepo.findAll();
 
