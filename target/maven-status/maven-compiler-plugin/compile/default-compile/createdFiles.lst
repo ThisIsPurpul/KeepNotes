@@ -1,0 +1,7 @@
+ru/bve/notes/Application.class
+ru/bve/notes/Repositories/TaskRepository.class
+ru/bve/notes/Repositories/CategoryRepository.class
+ru/bve/notes/view/CategoryView.class
+ru/bve/notes/view/AddCategoryView.class
+ru/bve/notes/domain/CategoryEntity.class
+ru/bve/notes/domain/TaskEntity.class
