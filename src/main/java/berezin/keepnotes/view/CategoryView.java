@@ -1,4 +1,4 @@
-package ru.bve.notes.view;
+package berezin.keepnotes.view;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import ru.bve.notes.Repositories.CategoryRepository;
-import ru.bve.notes.Repositories.TaskRepository;
-import ru.bve.notes.domain.CategoryEntity;
+import berezin.keepnotes.repositories.CategoryRepository;
+import berezin.keepnotes.repositories.TaskRepository;
+import berezin.keepnotes.entities.CategoryEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,10 +62,11 @@ public class CategoryView {
     }
 
     @RequestMapping(value = {"/addCategory"}, method = RequestMethod.POST)
-    public String categorySubmit(@ModelAttribute CategoryEntity addcategory, Model model){
-        if (StringUtils.hasText(addcategory.getName())){
-            categoryRepository.save(new CategoryEntity(addcategory.getName()));
+    public String categorySubmit(@ModelAttribute CategoryEntity addСategory, Model model){
+        if (StringUtils.hasText(addСategory.getName())){
+            categoryRepository.save(new CategoryEntity(addСategory.getName()));
         }
         return "redirect:/category";
     }
+
 }

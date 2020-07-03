@@ -1,4 +1,4 @@
-package ru.bve.notes.domain;
+package berezin.keepnotes.entities;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -49,13 +49,11 @@ public class TaskEntity {
     }
 
     public void setId(Long id){ this.id = id; }
-
     public Long getId(){ return id; }
 
     public void setParentId(Long parent_id){
         this.parent_id = parent_id;
     }
-
     public Long getParentId(Long parent_id){
         return parent_id;
     }
@@ -63,23 +61,19 @@ public class TaskEntity {
     public void setTittle(String tittle){
         this.tittle = tittle;
     }
-
     public String getTittle(){
         return tittle;
     }
 
     public void setDescription(String description) { this.description = description; }
-
     public String getDescription(){ return description; }
 
     public void setDone(Boolean done){ this.done = done; }
-
     public Boolean getDone(){ return done; }
 
     public void setDate(Date date){
         this.date = date;
     }
-
     public Date getDate(){
         return date;
     }

@@ -2,36 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>MyNotes</title>
-    <link rel = "stylesheet" href="/assets/style.css">
+    <title>KeepNotes</title>
+    <link rel="stylesheet" href="/assets/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 
 <body>
-    <h1>Notes Project 2020</h1>
-    <table border="1">
-    <tr>
-        <th>Мои списки</th>
-        <th th:utext="${currentCategory.getName()}"></th>
-    </tr>
-    <tr>
-        <td>
-            <ul th:each="category: ${categories}">
-                <li><a th:href="@{/category/{id}(id=${category.getId()})}" th:utext="${category.getName()}"></a></li>
+<h1>KeepNotes</h1>
+
+
+<!-- <th th:utext="${currentCategory.getName()}"></th> -->
+<div class="container">
+    <div class="row">
+        <div class="categories col-md-auto">
+            <ul th:each="category: ${categories}" class="list-group">
+                <li class="list-group-item"><a th:href="@{/category/{id}(id=${category.getId()})}"
+                                               th:utext="${category.getName()}"></a></li>
             </ul>
-        </td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>
+
             <!-- <a th:href="@{/addCategory}">Добавить категорию</a> -->
-            <form action="#" th:action="@{/addCategory}" method="post">
-                <input type="text" name="name"/>
-                <input type="submit" value="Добавить" />
+            <form action="#" th:action="@{/addCategory}" method="post" class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Новый тег" aria-label="Новый тег" name="name"/>
+                <div class="input-group-append">
+                    <input type="submit" class="btn btn-outline-secondary" value="Добавить"/>
+                </div>
             </form>
-        </td>
-        <td></td>
-    </tr>
-    </table>
+        </div>
+        <div class="tasks card">
+            <div class="card-body">
+                Текст заметки
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
 

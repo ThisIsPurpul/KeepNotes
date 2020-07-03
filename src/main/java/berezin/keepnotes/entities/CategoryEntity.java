@@ -1,4 +1,4 @@
-package ru.bve.notes.domain;
+package berezin.keepnotes.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.*;
@@ -30,7 +30,6 @@ public class CategoryEntity {
     public void setId(Long id) {
         this.id = id;
     }
-
     public Long getId() {
         return id;
     }
@@ -38,7 +37,6 @@ public class CategoryEntity {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getName() {
         return name;
     }
@@ -46,7 +44,6 @@ public class CategoryEntity {
     public List<TaskEntity> getTasks() {
         return tasks;
     }
-
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
     }

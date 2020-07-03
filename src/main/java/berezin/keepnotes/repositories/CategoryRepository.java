@@ -1,7 +1,7 @@
-package ru.bve.notes.Repositories;
+package berezin.keepnotes.repositories;
 
+import berezin.keepnotes.entities.CategoryEntity;
 import org.springframework.data.repository.CrudRepository;
-import ru.bve.notes.domain.CategoryEntity;
 
 import java.util.List;
 

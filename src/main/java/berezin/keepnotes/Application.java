@@ -1,4 +1,4 @@
-package ru.bve.notes;
+package berezin.keepnotes;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
