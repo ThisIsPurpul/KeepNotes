@@ -1,13 +1,11 @@
 package berezin.keepnotes.view;
 
+import berezin.keepnotes.entities.TaskEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import berezin.keepnotes.repositories.CategoryRepository;
 import berezin.keepnotes.repositories.TaskRepository;
 import berezin.keepnotes.entities.CategoryEntity;
@@ -25,19 +23,24 @@ public class CategoryView {
     @RequestMapping(value = {"/", "/category"}, method = RequestMethod.GET)
     public String getIndex(Model model){
         Map<Long, CategoryEntity> categories = getCategories();
+        Map<Long, TaskEntity> tasks = getTasks();
 
         model.addAttribute("categories", categories.values());
         model.addAttribute("currentCategory", categories.get(0L));
-
+        model.addAttribute("tasks", tasks.values());
+        model.addAttribute("currentTask", tasks.get(0L));
         return "category";
     }
 
     @RequestMapping(value = {"/category/{id}"}, method = RequestMethod.GET)
     public String getIndex(Model model, @PathVariable long id){
         Map<Long, CategoryEntity> categories = getCategories();
+        Map<Long, TaskEntity> tasks = getTasks();
 
+        model.addAttribute("tasks", categories.values());
+        model.addAttribute("currentTask", categories.get(0L));
         model.addAttribute("categories", categories.values());
-        model.addAttribute("currentCategory", categories.get(id));
+        model.addAttribute("currentCategory", categories.get(0L));
 
         return "category";
     }
@@ -49,6 +52,17 @@ public class CategoryView {
         Iterable<CategoryEntity> categories = categoryRepository.findAll();
 
         for (CategoryEntity entity: categories){
+            result.put(entity.getId(), entity);
+        }
+
+        return result;
+    }
+    private Map<Long, TaskEntity> getTasks() {
+        Map<Long, TaskEntity> result = new HashMap<>();
+
+        Iterable<TaskEntity> tasks = taskRepository.findAll();
+
+        for (TaskEntity entity : tasks) {
             result.put(entity.getId(), entity);
         }
 
@@ -68,5 +82,12 @@ public class CategoryView {
         }
         return "redirect:/category";
     }
+
+    @RequestMapping(value = "/category/deleteCategory/{id}", method = RequestMethod.POST)
+    public String categoryDelete(@ModelAttribute CategoryEntity deleteCategory, Model model){
+        categoryRepository.delete(deleteCategory);
+        return "redirect:/category";
+    }
+
 
 }

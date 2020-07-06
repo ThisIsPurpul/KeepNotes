@@ -11,17 +11,21 @@
 <body>
 <h1>KeepNotes</h1>
 
-
 <!-- <th th:utext="${currentCategory.getName()}"></th> -->
 <div class="container">
     <div class="row">
         <div class="categories col-md-auto">
             <ul th:each="category: ${categories}" class="list-group">
-                <li class="list-group-item"><a th:href="@{/category/{id}(id=${category.getId()})}"
-                                               th:utext="${category.getName()}"></a></li>
+                <li class="list-group-item">
+                    <a th:href="@{/category/{id}(id=${category.getId()})}"
+                       th:utext="${category.getName()}"></a>
+                    <a th:href="@{/deleteCategory/{id}(id=${category.getId()})}" type="button"
+                       onclick="return confirm('Удалить категорию?')" class="btn btn-outline-danger">
+                        Удалить
+                    </a>
+                </li>
             </ul>
 
-            <!-- <a th:href="@{/addCategory}">Добавить категорию</a> -->
             <form action="#" th:action="@{/addCategory}" method="post" class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Новый тег" aria-label="Новый тег" name="name"/>
                 <div class="input-group-append">
@@ -29,8 +33,35 @@
                 </div>
             </form>
         </div>
-        <div class="input-group">
-            <input type="text" class="form-control" placeholder="Desc">
+        <div class="list-group">
+            <ul th:each="task: ${tasks}" class="task-group">
+                <li class="list-group-item">
+                    <form action="#" th:action="@{/addTask}" method="post" class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Новый заголовок"
+                               aria-label="Новый заголовок" name="title"/>
+                        <div class="input-group-append">
+                            <input type="submit" class="btn btn-outline-secondary" value="Добавить"/>
+                        </div>
+                    </form>
+                </li>
+                <li class="list-group-item">
+                    <a href="@{/category/{parentId}/task/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
+                       class="list-group-item list-group-item-action flex-column align-items-start active">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Название заметки</h5>
+                            <small>Дата</small>
+                        </div>
+
+                        <p class="mb-1">
+                            <a th:href="@{/category/{parentId}/task/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
+                               th:utext="${task.getTitle()}"></a>
+                        </p>
+
+                        <small>Статус активности с чекбоксом</small>
+                    </a>
+                </li>
+            </ul>
+
         </div>
     </div>
 </div>

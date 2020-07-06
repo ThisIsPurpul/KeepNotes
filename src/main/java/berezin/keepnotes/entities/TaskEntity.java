@@ -10,8 +10,8 @@ public class TaskEntity {
     @Id
     @GeneratedValue
     private Long id;
-    private Long parent_id;
-    private String tittle;
+    private Long parentId;
+    private String title;
     private String description;
     private Boolean done;
     @Temporal(TemporalType.TIMESTAMP)
@@ -27,20 +27,22 @@ public class TaskEntity {
 
     public TaskEntity(){
     }
-
-    public TaskEntity(Long parent_id, String tittle){
-        this(null, parent_id, tittle, "", false, null, null, null);
+    public TaskEntity(String name) {
+        this(null, name);
+    }
+    public TaskEntity(Long parentId, String title){
+        this(null, parentId, title, "", false, null, null, null);
 
         LocalDateTime currentDataTime = LocalDateTime.now();
         this.createDate = Date.from(currentDataTime.atZone(ZoneId.systemDefault()).toInstant());
         this.updateDate = createDate;
     }
 
-    public TaskEntity(Long id, long parent_id, String tittle, String discription, Boolean done,
+    public TaskEntity(Long id, long parentId, String title, String description, Boolean done,
                       Date createDate, Date updateDate, Date date){
         this.id = id;
-        this.parent_id = parent_id;
-        this.tittle = tittle;
+        this.parentId = parentId;
+        this.title = title;
         this.description = description;
         this.done = done;
         this.createDate = createDate;
@@ -51,18 +53,18 @@ public class TaskEntity {
     public void setId(Long id){ this.id = id; }
     public Long getId(){ return id; }
 
-    public void setParentId(Long parent_id){
-        this.parent_id = parent_id;
+    public void setParentId(Long parentId){
+        this.parentId = parentId;
     }
-    public Long getParentId(Long parent_id){
-        return parent_id;
+    public Long getParentId(Long parentId){
+        return parentId;
     }
 
-    public void setTittle(String tittle){
-        this.tittle = tittle;
+    public void setTitle(String title){
+        this.title = title;
     }
-    public String getTittle(){
-        return tittle;
+    public String getTitle(){
+        return title;
     }
 
     public void setDescription(String description) { this.description = description; }
