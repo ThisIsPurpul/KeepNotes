@@ -28,20 +28,17 @@ public class CategoryView {
         model.addAttribute("categories", categories.values());
         model.addAttribute("currentCategory", categories.get(0L));
         model.addAttribute("tasks", tasks.values());
-        model.addAttribute("currentTask", tasks.get(0L));
         return "category";
     }
 
     @RequestMapping(value = {"/category/{id}"}, method = RequestMethod.GET)
-    public String getIndex(Model model, @PathVariable long id){
+    public String getIndex(Model model, @PathVariable Long id){
         Map<Long, CategoryEntity> categories = getCategories();
         Map<Long, TaskEntity> tasks = getTasks();
 
-        model.addAttribute("tasks", categories.values());
-        model.addAttribute("currentTask", categories.get(0L));
         model.addAttribute("categories", categories.values());
-        model.addAttribute("currentCategory", categories.get(0L));
-
+        model.addAttribute("currentCategory", categories.get(id));
+        model.addAttribute("tasks", tasks.values());
         return "category";
     }
 
@@ -78,9 +75,11 @@ public class CategoryView {
     @RequestMapping(value = {"/addCategory"}, method = RequestMethod.POST)
     public String categorySubmit(@ModelAttribute CategoryEntity addСategory, Model model){
         if (StringUtils.hasText(addСategory.getName())){
-            categoryRepository.save(new CategoryEntity(addСategory.getName()));
+            CategoryEntity result = categoryRepository.save(new CategoryEntity(addСategory.getName()));
+            Long id = result.getId();
+            return "redirect:/category/" + id;
         }
-        return "redirect:/category";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/category/deleteCategory/{id}", method = RequestMethod.POST)

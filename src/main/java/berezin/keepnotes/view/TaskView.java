@@ -34,12 +34,11 @@ public class TaskView {
     }
 
 
-    @RequestMapping(value = {"/category/{parentId}/task/{id}"}, method = RequestMethod.GET)
-    public String getIndex(Model model, @PathVariable long id, @PathVariable long parentId){
+    @RequestMapping(value = {"/category/{parentId}/{id}"}, method = RequestMethod.GET)
+    public String getIndex(Model model, @PathVariable Long id, @PathVariable Long parentId){
         Map<Long, TaskEntity> tasks = getTasks();
 
         model.addAttribute("tasks", tasks.values());
-        model.addAttribute("currentTask", tasks.get(id));
 
         return "category";
     }
@@ -55,7 +54,7 @@ public class TaskView {
         if (StringUtils.hasText(addTask.getTitle())){
             taskRepository.save(new TaskEntity(addTask.getTitle()));
         }
-        return "redirect:/category";
+        return "redirect:/category/"+ addTask.getParentId();
     }
 }
 

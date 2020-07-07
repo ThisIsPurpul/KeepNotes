@@ -8,7 +8,8 @@
 </head>
 <body>
 <form action="#" th:action="@{/addTask}" th:object="${addTask}" method="post">
-    <p>Название: <input type="text" th:field="*{title}" /></p>
+    <p>Заголовок: <input type="text" th:field="*{title}" /></p>
+    <p>Parent ID: <input type="hidden" th:field="*{parentId}"></p>
     <p><input type="submit" value="Добавить" /> </p>
 </form>
 </body>

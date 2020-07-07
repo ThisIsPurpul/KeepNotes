@@ -27,9 +27,11 @@ public class TaskEntity {
 
     public TaskEntity(){
     }
-    public TaskEntity(String name) {
-        this(null, name);
+
+    public TaskEntity(String title) {
+        this.title = title;
     }
+
     public TaskEntity(Long parentId, String title){
         this(null, parentId, title, "", false, null, null, null);
 
@@ -38,7 +40,7 @@ public class TaskEntity {
         this.updateDate = createDate;
     }
 
-    public TaskEntity(Long id, long parentId, String title, String description, Boolean done,
+    public TaskEntity(Long id, Long parentId, String title, String description, Boolean done,
                       Date createDate, Date updateDate, Date date){
         this.id = id;
         this.parentId = parentId;
@@ -56,7 +58,7 @@ public class TaskEntity {
     public void setParentId(Long parentId){
         this.parentId = parentId;
     }
-    public Long getParentId(Long parentId){
+    public Long getParentId(){
         return parentId;
     }
 
