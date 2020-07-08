@@ -38,18 +38,17 @@
             <p>Tasks here</p>
             <ul th:each="task: ${tasks}" class="list-group">
                 <li class="list-group-item">
-                    <a href="@{/category/{parentId}/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
-                       class="list-group-item list-group-item-action flex-column align-items-start active">
                         <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Название заметки</h5>
+                            <h5><a th:href="@{/category/}"
+                                                th:utext="${task.getTitle()}"></a></h5>
                             <small>Дата</small>
                         </div>
                         <p class="mb-1">
-                            <a th:href="@{/category/{parentId}/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
-                               th:utext="${task.getTitle()}"></a>
+                            <!--<a th:href="@{/category/{parentId}/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
+                               th:utext="${task.getTitle()}"></a>-->
+
                         </p>
                         <small>Статус активности с чекбоксом</small>
-                    </a>
                 </li>
             </ul>
             <form th:action="@{/addTask}" method="post" class="input-group mb-3">

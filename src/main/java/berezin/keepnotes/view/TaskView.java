@@ -64,16 +64,14 @@ public class TaskView {
     public String taskSubmit(@ModelAttribute TaskEntity addTask, Model model){
         if (StringUtils.hasText(addTask.getTitle())){
 
-            //К категории привязываю таску
             List<TaskEntity> tasks = categoryRepository.findCtgById(addTask.getParentId()).getTasks();
             tasks.add(addTask);
             getCategories().get(addTask.getParentId()).setTasks(tasks);
 
-            //К таске привязываю категорию
             addTask.setCtg(categoryRepository.findCtgById(addTask.getParentId()));
 
-            //сохраняю категорию
-            taskRepository.save(new TaskEntity(addTask.getParentId(), addTask.getTitle()));
+            taskRepository.save(addTask);
+
     }
         return "redirect:/category/"+ addTask.getParentId();
     }
