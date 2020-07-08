@@ -29,7 +29,7 @@ public class TaskEntity {
     }
 
     public TaskEntity(String title) {
-        this.title = title;
+        this(null, null, title, "", false, null, null, null);
     }
 
     public TaskEntity(Long parentId, String title){

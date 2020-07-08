@@ -10,8 +10,7 @@ import berezin.keepnotes.repositories.CategoryRepository;
 import berezin.keepnotes.repositories.TaskRepository;
 import berezin.keepnotes.entities.CategoryEntity;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class TaskView {
@@ -27,6 +26,18 @@ public class TaskView {
         Iterable<TaskEntity> tasks = taskRepository.findAll();
 
         for (TaskEntity entity : tasks) {
+            result.put(entity.getId(), entity);
+        }
+
+        return result;
+    }
+    private Map<Long, CategoryEntity> getCategories(){
+        Map<Long, CategoryEntity> result = new HashMap<>();
+        result.put(0L, new CategoryEntity(("Все")));
+
+        Iterable<CategoryEntity> categories = categoryRepository.findAll();
+
+        for (CategoryEntity entity: categories){
             result.put(entity.getId(), entity);
         }
 
@@ -52,7 +63,11 @@ public class TaskView {
     @RequestMapping(value = {"/addTask"}, method = RequestMethod.POST)
     public String taskSubmit(@ModelAttribute TaskEntity addTask, Model model){
         if (StringUtils.hasText(addTask.getTitle())){
-            taskRepository.save(new TaskEntity(addTask.getTitle()));
+            taskRepository.save(new TaskEntity(addTask.getParentId(), addTask.getTitle()));
+            //todo: Связать категорию и таски
+            List<TaskEntity> tasks = new ArrayList<TaskEntity>();
+            tasks.add(addTask);
+            getCategories().get(addTask.getParentId()).setTasks(tasks);
         }
         return "redirect:/category/"+ addTask.getParentId();
     }
