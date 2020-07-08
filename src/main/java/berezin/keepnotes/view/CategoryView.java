@@ -87,6 +87,4 @@ public class CategoryView {
         categoryRepository.delete(deleteCategory);
         return "redirect:/category";
     }
-
-
 }

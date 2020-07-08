@@ -47,4 +47,5 @@ public class CategoryEntity {
     public void setTasks(List<TaskEntity> tasks) {
         this.tasks = tasks;
     }
+
 }

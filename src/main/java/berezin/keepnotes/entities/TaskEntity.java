@@ -4,6 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 
 @Entity
 public class TaskEntity {
@@ -80,6 +81,13 @@ public class TaskEntity {
     }
     public Date getDate(){
         return date;
+    }
+
+    public void setCtg(CategoryEntity ctg){
+        this.ctg = ctg;
+    }
+    public CategoryEntity getCtg() {
+        return ctg;
     }
 }
 

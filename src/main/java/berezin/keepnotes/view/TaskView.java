@@ -63,12 +63,18 @@ public class TaskView {
     @RequestMapping(value = {"/addTask"}, method = RequestMethod.POST)
     public String taskSubmit(@ModelAttribute TaskEntity addTask, Model model){
         if (StringUtils.hasText(addTask.getTitle())){
-            taskRepository.save(new TaskEntity(addTask.getParentId(), addTask.getTitle()));
-            //todo: Связать категорию и таски
-            List<TaskEntity> tasks = new ArrayList<TaskEntity>();
+
+            //К категории привязываю таску
+            List<TaskEntity> tasks = categoryRepository.findCtgById(addTask.getParentId()).getTasks();
             tasks.add(addTask);
             getCategories().get(addTask.getParentId()).setTasks(tasks);
-        }
+
+            //К таске привязываю категорию
+            addTask.setCtg(categoryRepository.findCtgById(addTask.getParentId()));
+
+            //сохраняю категорию
+            taskRepository.save(new TaskEntity(addTask.getParentId(), addTask.getTitle()));
+    }
         return "redirect:/category/"+ addTask.getParentId();
     }
 }
