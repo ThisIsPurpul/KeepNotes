@@ -17,13 +17,21 @@
         <div class="categories col-md-auto">
             <ul th:each="category: ${categories}" class="list-group">
                 <li class="list-group-item">
-                    <a th:href="@{/category/{id}(id=${category.getId()})}"
-                       th:utext="${category.getName()}"></a>
-                    <a th:href="@{/deleteCategory/{id}(id=${category.getId()})}" type="button"
-                       onclick="return confirm('Удалить категорию?')" class="btn btn-outline-danger"
-                       style="position:absolute; right:5px; bottom:5px">
-                        Удалить
-                    </a>
+                    <form th:action="@{/deleteCategory}" method="post" class="input-group mb-3">
+                        <a th:href="@{/category/{id}(id=${category.getId()})}"
+                           th:utext="${category.getName()}"></a>
+                        <input type="hidden" name="id" th:value="${category.getId()}">
+                        <div th:switch="${category.getId()}">
+                            <input th:case="null" type="submit" class="btn btn-outline-danger"
+                                   style="position:absolute; right:2px"
+                                   onclick="return confirm('Удалить все категории?')"
+                                   value="Удалить всё"/>
+                            <input th:case="*" type="submit" class="btn btn-outline-danger"
+                                   style="position:absolute; right:2px"
+                                   onclick="return confirm('Удалить категорию?')"
+                                   value="Удалить"/>
+                        </div>
+                    </form>
                 </li>
             </ul>
 
@@ -34,31 +42,40 @@
                 </div>
             </form>
         </div>
+
         <div class="tasks col-md-auto">
-            <p>Tasks here</p>
             <ul th:each="task: ${tasks}" class="list-group">
                 <li class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5><a th:href="@{/category/}"
-                                                th:utext="${task.getTitle()}"></a></h5>
-                            <small>Дата</small>
-                        </div>
-                        <p class="mb-1">
-                            <!--<a th:href="@{/category/{parentId}/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
-                               th:utext="${task.getTitle()}"></a>-->
-
-                        </p>
-                        <small>Статус активности с чекбоксом</small>
+                    <div class="d-flex w-100 justify-content-between">
+                        <h5><a th:href="@{/category/}"
+                               th:utext="${task.getTitle()}"></a></h5>
+                        <small>Дата</small>
+                    </div>
+                    <p class="mb-1">
+                        <!--<a th:href="@{/category/{parentId}/{id}(id=${task.getId()})(parentId=${task.getParentId})}"
+                           th:utext="${task.getTitle()}"></a>-->
+                    </p>
+                    <small>Статус активности с чекбоксом</small>
+                    <form th:action="@{/deleteTask}" method="post" class="input-group mb-3">
+                        <input type="hidden" name="id" th:value="${task.getId()}">
+                        <input type="hidden" name="parentId" th:value="${currentCategory.id}">
+                        <input type="submit" class="btn btn-outline-danger"
+                               style="position:absolute; right:2px"
+                               value="Удалить"/>
+                    </form>
                 </li>
             </ul>
-            <form th:action="@{/addTask}" method="post" class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Новый заголовок"
-                       aria-label="Новый заголовок" name="title"/>
-                <input type="hidden" name="parentId" th:value="${currentCategory.id}">
-                <div class="input-group-append">
-                    <input type="submit" class="btn btn-outline-secondary" value="Добавить"/>
-                </div>
-            </form>
+            <div th:switch="${currentCategory.id}">
+                <p th:case="null"></p>
+                <form th:case="*" th:action="@{/addTask}" method="post" class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Новый заголовок"
+                           aria-label="Новый заголовок" name="title"/>
+                    <input type="hidden" name="parentId" th:value="${currentCategory.id}">
+                    <div class="input-group-append">
+                        <input type="submit" class="btn btn-outline-secondary" value="Добавить"/>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>

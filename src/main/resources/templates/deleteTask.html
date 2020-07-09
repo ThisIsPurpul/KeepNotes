@@ -7,8 +7,9 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
 <body>
-<form action="#" th:action="@{/deleteCategory}" th:object="${deleteCategory}" method="post">
+<form action="#" th:action="@{/deleteTask}" th:object="${deleteTask}" method="post">
     <p>ID: <input type="hidden" th:field="*{id}"></p>
+    <p>ID: <input type="hidden" th:field="*{parentId}"></p>
     <p><input type="submit" value="Удалить" /> </p>
 </form>
 </body>

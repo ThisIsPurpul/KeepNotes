@@ -9,4 +9,5 @@ public interface CategoryRepository extends CrudRepository<CategoryEntity, Long>
     List<CategoryEntity> findAll();
 
     CategoryEntity findCtgById(Long id);
+    CategoryEntity findCtgByName(String name);
 }

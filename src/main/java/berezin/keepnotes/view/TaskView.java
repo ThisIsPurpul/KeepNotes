@@ -62,7 +62,7 @@ public class TaskView {
 
     @RequestMapping(value = {"/addTask"}, method = RequestMethod.POST)
     public String taskSubmit(@ModelAttribute TaskEntity addTask, Model model){
-        if (StringUtils.hasText(addTask.getTitle())){
+        if (StringUtils.hasText(addTask.getTitle()) && addTask.getParentId() != null){
 
             List<TaskEntity> tasks = categoryRepository.findCtgById(addTask.getParentId()).getTasks();
             tasks.add(addTask);
@@ -74,6 +74,22 @@ public class TaskView {
 
     }
         return "redirect:/category/"+ addTask.getParentId();
+    }
+
+    @RequestMapping(value = {"/deleteTask"}, method = RequestMethod.POST)
+    public String taskDelete(@ModelAttribute TaskEntity deleteTask, Model model) {
+        System.out.println(deleteTask.getId());
+        System.out.println(deleteTask.getParentId());
+        System.out.println(taskRepository.findTaskById(deleteTask.getId()));
+
+        taskRepository.delete(taskRepository.findTaskById(deleteTask.getId()));
+
+        System.out.println(taskRepository.findTaskById(deleteTask.getId()));
+
+        if (deleteTask.getParentId() != null){
+            return "redirect:/category/" + deleteTask.getParentId();
+        }
+        return "redirect:/category/";
     }
 }
 
