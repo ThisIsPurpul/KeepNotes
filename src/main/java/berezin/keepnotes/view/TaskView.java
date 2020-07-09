@@ -31,13 +31,14 @@ public class TaskView {
 
         return result;
     }
-    private Map<Long, CategoryEntity> getCategories(){
+
+    private Map<Long, CategoryEntity> getCategories() {
         Map<Long, CategoryEntity> result = new HashMap<>();
         result.put(0L, new CategoryEntity(("Все")));
 
         Iterable<CategoryEntity> categories = categoryRepository.findAll();
 
-        for (CategoryEntity entity: categories){
+        for (CategoryEntity entity : categories) {
             result.put(entity.getId(), entity);
         }
 
@@ -46,7 +47,7 @@ public class TaskView {
 
 
     @RequestMapping(value = {"/category/{parentId}/{id}"}, method = RequestMethod.GET)
-    public String getIndex(Model model, @PathVariable Long id, @PathVariable Long parentId){
+    public String getIndex(Model model, @PathVariable Long id, @PathVariable Long parentId) {
         Map<Long, TaskEntity> tasks = getTasks();
 
         model.addAttribute("tasks", tasks.values());
@@ -61,8 +62,8 @@ public class TaskView {
     }
 
     @RequestMapping(value = {"/addTask"}, method = RequestMethod.POST)
-    public String taskSubmit(@ModelAttribute TaskEntity addTask, Model model){
-        if (StringUtils.hasText(addTask.getTitle()) && addTask.getParentId() != null){
+    public String taskSubmit(@ModelAttribute TaskEntity addTask, Model model) {
+        if (StringUtils.hasText(addTask.getTitle()) && addTask.getParentId() != null) {
 
             List<TaskEntity> tasks = categoryRepository.findCtgById(addTask.getParentId()).getTasks();
             tasks.add(addTask);
@@ -72,8 +73,8 @@ public class TaskView {
 
             taskRepository.save(addTask);
 
-    }
-        return "redirect:/category/"+ addTask.getParentId();
+        }
+        return "redirect:/category/" + addTask.getParentId();
     }
 
     @RequestMapping(value = {"/deleteTask"}, method = RequestMethod.POST)
@@ -82,15 +83,17 @@ public class TaskView {
         System.out.println(deleteTask.getParentId());
         System.out.println(taskRepository.findTaskById(deleteTask.getId()));
 
-        taskRepository.delete(taskRepository.findTaskById(deleteTask.getId()));
+        //taskRepository.delete(taskRepository.findTaskById(deleteTask.getId()));
 
+        taskRepository.deleteById(deleteTask.getId());
         System.out.println(taskRepository.findTaskById(deleteTask.getId()));
 
-        if (deleteTask.getParentId() != null){
+        if (deleteTask.getParentId() != null) {
             return "redirect:/category/" + deleteTask.getParentId();
         }
         return "redirect:/category/";
     }
 }
+
 
 
