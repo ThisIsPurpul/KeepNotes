@@ -1,0 +1,92 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>KeepNotes</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+
+<body>
+<h1>KeepNotes</h1>
+
+
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="categories col-md-auto">
+            <ul th:each="category: ${categories}" class="list-group">
+                <li class="list-group-item">
+                    <form th:action="@{/deleteCategory}" method="post" class="input-group mb-3">
+                        <h5><a th:href="@{/category/{id}(id=${category.getId()})}"
+                               th:utext="${category.getName()}"></a></h5>
+                        <input type="hidden" name="id" th:value="${category.getId()}">
+                        <div th:switch="${category.getId()}">
+                            <input th:case="null" type="submit" class="btn btn-outline-danger"
+                                   style="position:absolute; right:2px"
+                                   onclick="return confirm('Удалить все категории?')"
+                                   value="Удалить всё"/>
+                            <input th:case="*" type="submit" class="btn btn-outline-danger"
+                                   style="position:absolute; right:2px"
+                                   onclick="return confirm('Удалить категорию?')"
+                                   value="x"/>
+                        </div>
+                    </form>
+                </li>
+            </ul>
+
+            <form action="#" th:action="@{/addCategory}" method="post" class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Новый тег" aria-label="Новый тег" name="name"/>
+                <div class="input-group-append">
+                    <input type="submit" class="btn btn-outline-secondary" value="+"/>
+                </div>
+            </form>
+        </div>
+
+        <div th:each="task: ${tasks}">
+            <div class="card">
+                <div class="card-header">
+                    <h5><a th:href="@{/category/}"
+                           th:utext="${task.getTitle()}"></a></h5>
+                </div>
+                <div class="card-body">
+                    <a th:href="@{/category/}"
+                       th:utext="${task.getDescription()}"></a>
+                </div>
+                <div class="card-footer">
+                    <form th:action="@{/deleteTask}" method="post" class="input-group mb-3">
+                        <input type="hidden" name="id" th:value="${task.getId()}">
+                        <input type="hidden" name="parentId" th:value="${currentCategory.id}">
+                        <input type="submit" class="btn btn-outline-danger btn-sm" value="x"/>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div th:switch="${currentCategory.id}">
+            <p th:case="null"></p>
+            <form th:case="*" th:action="@{/addTask}" method="post" class="input-group mb-3">
+                <div class="form-group">
+                    <label for="newTitleForm">Название заметки</label>
+                    <input type="text" class="form-control" id="newTitleForm"
+                           aria-label="Новый заголовок" name="title"/>
+                </div>
+                <div class="form-group">
+                    <label for="newDescriptionForm">Текст заметки</label>
+                    <input type="text" class="form-control" id="newDescriptionForm"
+                           aria-label="Новый текст" name="description"/>
+                </div>
+                <input type="hidden" name="parentId" th:value="${currentCategory.id}">
+                <div class="input-group-append">
+                    <input type="submit" class="btn btn-outline-secondary" value="+"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+</html>
+
