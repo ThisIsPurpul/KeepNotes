@@ -29,7 +29,7 @@
                             <input th:case="*" type="submit" class="btn btn-outline-danger"
                                    style="position:absolute; right:2px"
                                    onclick="return confirm('Удалить категорию?')"
-                                   value="Удалить"/>
+                                   value="x"/>
                         </div>
                     </form>
                 </li>
@@ -38,7 +38,7 @@
             <form action="#" th:action="@{/addCategory}" method="post" class="input-group mb-3">
                 <input type="text" class="form-control" placeholder="Новый тег" aria-label="Новый тег" name="name"/>
                 <div class="input-group-append">
-                    <input type="submit" class="btn btn-outline-secondary" value="Добавить"/>
+                    <input type="submit" class="btn btn-outline-secondary" value="+"/>
                 </div>
             </form>
         </div>
@@ -55,7 +55,7 @@
                             <input type="hidden" name="parentId" th:value="${currentCategory.id}">
                             <input type="submit" class="btn btn-outline-danger"
                                    style="position:absolute; right:2px"
-                                   value="Удалить"/>
+                                   value="x"/>
                         </form>
                     </div>
                     <p class="mb-1">
@@ -72,7 +72,7 @@
                            aria-label="Новый заголовок" name="title"/>
                     <input type="hidden" name="parentId" th:value="${currentCategory.id}">
                     <div class="input-group-append">
-                        <input type="submit" class="btn btn-outline-secondary" value="Добавить"/>
+                        <input type="submit" class="btn btn-outline-secondary" value="+"/>
                     </div>
                 </form>
             </div>

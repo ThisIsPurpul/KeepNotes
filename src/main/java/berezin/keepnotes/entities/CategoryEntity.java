@@ -12,7 +12,7 @@ public class CategoryEntity {
     private String name;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "ctg", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "ctg", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<TaskEntity> tasks;
 
     public CategoryEntity() {
