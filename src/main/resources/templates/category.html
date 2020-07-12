@@ -66,6 +66,7 @@
                                     Редактировать категорию
                                 </button>
                             </div>
+                            <!--Модальное окно изменения категории-->
                             <div class="modal fade" id="redactModal" tabindex="-1" role="dialog"
                                  aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
@@ -90,30 +91,59 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div th:switch="${currentCategory.id}">
                                 <p th:case="null"></p>
-                                <form th:case="*" th:action="@{/addTask}" method="post" class="input-group mb-3">
-                                    <div class="form-group">
-                                        <label for="newTitleForm">Название заметки</label>
-                                        <input type="text" class="form-control" id="newTitleForm"
-                                               aria-label="Новый заголовок" name="title"/>
+                                <button th:case="*" type="button" class="btn btn-primary" data-toggle="modal"
+                                        data-target="#newTaskModal">
+                                    Добавить задачу
+                                </button>
+                            </div>
+                            <!--Модальное окно добавления задачи-->
+                            <div class="modal fade" id="newTaskModal" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Добавление задачи</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div th:switch="${currentCategory.id}">
+                                                <p th:case="null"></p>
+                                                <form th:case="*" th:action="@{/addTask}" method="post"
+                                                      class="input-group mb-3">
+                                                    <div class="form-group">
+                                                        <label for="newTitleForm">Название заметки</label>
+                                                        <input type="text" class="form-control" id="newTitleForm"
+                                                               aria-label="Новый заголовок" name="title"/>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="newDescriptionForm">Текст заметки</label>
+                                                        <textarea class="form-control" id="newDescriptionForm" rows="3"
+                                                                  name="description">
+                                                        </textarea>
+                                                    </div>
+                                                    <br>
+                                                    <div class="form-group">
+                                                        <input type="hidden" name="parentId"
+                                                               th:value="${currentCategory.id}">
+                                                        <input type="submit" class="btn btn-outline-secondary"
+                                                               value="Принять"/>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="newDescriptionForm">Текст заметки</label>
-                                        <textarea class="form-control" id="newDescriptionForm" rows="3"
-                                                  name="description">
-                                        </textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="hidden" name="parentId" th:value="${currentCategory.id}">
-                                        <input type="submit" class="btn btn-outline-secondary" value="+"/>
-                                    </div>
-                                </form>
+                                </div>
                             </div>
                         </div>
                         <div class="row">
                             <th:block th:each="task: ${tasks}">
                                 <div class="container-fluid m-2" style="width:12rem">
+                                    <!--Карточка задачи-->
                                     <div class="card">
                                         <div class="card-header">
                                             <h5><a th:href="@{/category/}"
@@ -127,14 +157,18 @@
                                             <form th:action="@{/deleteTask}" method="post" class="input-group mb-3">
                                                 <input type="hidden" name="id" th:value="${task.getId()}">
                                                 <input type="hidden" name="parentId" th:value="${currentCategory.id}">
-                                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                                        data-target="#redactTask">
-                                                    Ред
-                                                </button>
+                                                <th:block th:switch="${currentCategory.id}">
+                                                    <div th:case="null"></div>
+                                                    <button th:case="*" type="button" class="btn btn-primary btn-sm" data-toggle="modal"
+                                                            data-target="#redactTask">
+                                                        Change
+                                                    </button>
+                                                </th:block>
                                                 <input type="submit" class="btn btn-outline-danger btn-sm" value="x"/>
                                             </form>
                                         </div>
                                     </div>
+                                    <!--Модальное окно редактирования задачи-->
                                     <div class="modal fade" id="redactTask" tabindex="-1" role="dialog"
                                          aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
@@ -149,19 +183,25 @@
                                                 <div class="modal-body">
                                                     <form action="#" th:action="@{/redactTask}" method="post"
                                                           class="input-group mt-3">
-                                                        <input type="text" class="form-control"
-                                                               placeholder="Новое название заметки" name="title"/>
-                                                        <textarea class="form-control" rows="3" name="description">
+                                                        <div class="form-group">
+                                                            <input type="text" class="form-control"
+                                                                   placeholder="Новое название заметки" name="title"/>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <textarea class="form-control" rows="3" name="description">
                                                         </textarea>
+                                                        </div>
                                                         <input type="hidden" name="id" th:value="${task.getId()}">
                                                         <input type="hidden" name="parentId"
                                                                th:value="${currentCategory.id}">
+                                                        <br>
                                                         <input type="submit" class="btn btn-outline-secondary"
-                                                               value="+"/>
+                                                               value="Принять"/>
                                                     </form>
                                                 </div>
                                             </div>
                                         </div>
+
                                     </div>
                                 </div>
                             </th:block>
