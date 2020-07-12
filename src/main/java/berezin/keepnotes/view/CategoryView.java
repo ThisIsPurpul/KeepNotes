@@ -99,6 +99,7 @@ public class CategoryView {
     public String redCategory(@ModelAttribute CategoryEntity rdctCtg, Model model) {
         if (StringUtils.hasText(rdctCtg.getName())) {
             categoryRepository.findCtgById(rdctCtg.getId()).setName(rdctCtg.getName());
+            categoryRepository.save(categoryRepository.findCtgById(rdctCtg.getId()));
         }
         return "redirect:/category/" + rdctCtg.getId();
     }

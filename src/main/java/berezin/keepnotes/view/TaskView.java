@@ -99,6 +99,7 @@ public class TaskView {
         if (StringUtils.hasText(rdctTask.getTitle())) {
             taskRepository.findTaskById(rdctTask.getId()).setTitle(rdctTask.getTitle());
             taskRepository.findTaskById(rdctTask.getId()).setDescription(rdctTask.getDescription());
+            taskRepository.save(taskRepository.findTaskById(rdctTask.getId()));
         }
         return "redirect:/category/" + rdctTask.getParentId();
     }
