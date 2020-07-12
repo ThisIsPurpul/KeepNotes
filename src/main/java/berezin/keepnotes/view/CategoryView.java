@@ -94,4 +94,12 @@ public class CategoryView {
         }
         return "redirect:/category";
     }
+
+    @RequestMapping(value = {"/redactCategory"}, method = RequestMethod.POST)
+    public String redCategory(@ModelAttribute CategoryEntity rdctCtg, Model model) {
+        if (StringUtils.hasText(rdctCtg.getName())) {
+            categoryRepository.findCtgById(rdctCtg.getId()).setName(rdctCtg.getName());
+        }
+        return "redirect:/category/" + rdctCtg.getId();
+    }
 }

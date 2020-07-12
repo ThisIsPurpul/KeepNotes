@@ -93,6 +93,15 @@ public class TaskView {
         }
         return "redirect:/category/";
     }
+
+    @RequestMapping(value = {"/redactTask"}, method = RequestMethod.POST)
+    public String redTask(@ModelAttribute TaskEntity rdctTask, Model model) {
+        if (StringUtils.hasText(rdctTask.getTitle())) {
+            taskRepository.findTaskById(rdctTask.getId()).setTitle(rdctTask.getTitle());
+            taskRepository.findTaskById(rdctTask.getId()).setDescription(rdctTask.getDescription());
+        }
+        return "redirect:/category/" + rdctTask.getParentId();
+    }
 }
 
 
