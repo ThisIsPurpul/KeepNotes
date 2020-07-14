@@ -18,19 +18,19 @@
 
 <body>
 <nav class="navbar navbar-light bg-dark">
-    <span class="navbar-brand mb-0 h3 text-light" th:href="@{/category/}">KeepNotes</span>
+    <a class="navbar-brand mb-0 h3 text-light" th:href="@{/category/}">KeepNotes</a>
 </nav>
 <div class="container-fluid">
     <div class="row" style="height: 100vh">
         <div class="col-2 bg-dark">
             <div class="container pt-5">
-                <ul th:each="category: ${categories}" class="list-group">
-                    <li class="list-group-item">
+                <ul th:each="category: ${categories}" class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark">
                         <form th:action="@{/deleteCategory}" method="post"
                               class="input-group row justify-content-between p-1 mr-0 ml-0">
                             <div class="col-auto p-0">
-                                <h7><a th:href="@{/category/{id}(id=${category.getId()})}"
-                                       th:utext="${category.getName()}"></a></h7>
+                                <h5><a class="text-light" th:href="@{/category/{id}(id=${category.getId()})}"
+                                       th:utext="${category.getName()}"></a></h5>
                                 <input type="hidden" name="id" th:value="${category.getId()}">
                             </div>
                             <div class="col-auto p-0">
@@ -47,7 +47,7 @@
                     </li>
                 </ul>
                 <form action="#" th:action="@{/addCategory}" method="post" class="input-group mt-3">
-                    <input type="text" class="form-control" placeholder="Новый тег" aria-label="Новый тег" name="name"/>
+                    <input type="text" class="form-control" maxlength="15" placeholder="Новая категория" aria-label="Новый тег" name="name"/>
                     <div class="input-group-append">
                         <input type="submit" class="btn btn-outline-secondary" value="+"/>
                     </div>
@@ -64,13 +64,17 @@
                                     <div th:case="null">
                                         <span><h3>Все карточки</h3></span>
                                     </div>
-                                    <div th:case="*" class="justify-content-between">
-                                        <h3><p th:utext="${currentCategory.getName()}"></h3>
-                                        <button type="button" class="btn btn-primary m-3"
-                                                data-toggle="modal"
-                                                data-target="#redactModal">
-                                            Редактировать категорию
-                                        </button>
+                                    <div th:case="*" class="row justify-content-between">
+                                        <div class="col-6">
+                                            <h3><p th:utext="${currentCategory.getName()}"></h3>
+                                        </div>
+                                        <div class="col-6 text-right">
+                                            <button type="button" class="btn btn-primary col-6"
+                                                    data-toggle="modal"
+                                                    data-target="#redactModal">
+                                                Редактировать
+                                            </button>
+                                        </div>
                                     </div>
                                 </th:block>
                             </div>
@@ -89,7 +93,7 @@
                                         <div class="modal-body">
                                             <form action="#" th:action="@{/redactCategory}" method="post"
                                                   class="input-group mt-3">
-                                                <input type="text" class="form-control"
+                                                <input type="text" class="form-control" maxlength="15"
                                                        placeholder="Новое название категории" name="name"/>
                                                 <div class="input-group-append">
                                                     <input type="submit" class="btn btn-outline-secondary" value="+"/>
@@ -103,30 +107,57 @@
                         </div>
                         <div class="row">
                             <th:block th:each="task: ${tasks}">
-                                <div class="container-fluid m-2">
+                                <div class="container-fluid m-2  col-12">
                                     <!--Карточка задачи-->
                                     <div class="card">
-                                        <div class="card-header p-3">
-                                            <h5><p th:utext="${task.getTitle()}"></p></h5>
+                                        <div class="card-header pb-0">
+                                            <div class="row justify-content-between">
+                                                <div class="col-6">
+                                                    <h5><p th:utext="${task.getTitle()}" ></p></h5>
+                                                </div>
+                                                <div class="col-6">
+                                                    <!--Дата-->
+                                                    <p class="card-text text-right m-0">
+                                                        <small class="text-muted" th:text="${#dates.format(task.createDate, 'dd MMM yyyy HH:mm:ss')}">
+                                                        </small>
+                                                    </p>
+                                                    <th:block th:switch="${task.updateDate}">
+                                                        <p th:case="null"></p>
+                                                        <!--Дата изменения-->
+                                                        <p th:case="*" class="card-text text-right m-0 mb-2">
+                                                            <small href="#" class="text-light badge badge-pill badge-secondary" data-toggle="tooltip"
+                                                                   th:title="'Изменено ' + ${#dates.format(task.updateDate, 'dd MMM yyyy HH:mm:ss')}">
+                                                                Ред
+                                                            </small>
+                                                        </p>
+                                                    </th:block>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="card-body p-3">
                                             <p th:utext="${task.getDescription()}"></p>
                                         </div>
                                         <div class="card-footer p-3">
-                                            <form th:action="@{/deleteTask}" method="post" class="input-group mb-3">
+                                            <form th:action="@{/deleteTask}" id="formInTask" method="post" class="input-group m-0 p-0">
                                                 <input type="hidden" name="id" th:value="${task.getId()}">
                                                 <input type="hidden" name="parentId" th:value="${currentCategory.id}">
-                                                <!--Кнопка редактирования задачи-->
-                                                <th:block th:switch="${currentCategory.id}">
-                                                    <div th:case="null"></div>
-                                                    <button th:case="*" type="button" class="btn btn-primary btn-sm"
-                                                            data-toggle="modal"
-                                                            th:data-target="'#'+'redactTask'+${task.getId()}">
-                                                        Изменить
-                                                    </button>
-                                                </th:block>
-                                                <input type="submit" class="btn btn-danger btn-sm" value=" X "/>
                                             </form>
+                                            <div class="row justify-content-between">
+                                                <div class="col-1">
+                                                    <!--Кнопка редактирования задачи-->
+                                                    <th:block th:switch="${currentCategory.id}">
+                                                        <div th:case="null"></div>
+                                                        <button form="formInTask" th:case="*" type="button" class="btn btn-primary btn-sm"
+                                                                data-toggle="modal"
+                                                                th:data-target="'#'+'redactTask'+${task.getId()}">
+                                                            Изменить
+                                                        </button>
+                                                    </th:block>
+                                                </div>
+                                                <div class="col-1">
+                                                    <input form="formInTask" type="submit" class="btn btn-danger btn-sm mr-3" value=" X "/>
+                                                </div>
+                                            </div>
                                             <!--Модальное окно редактирования задачи-->
                                             <div class="modal fade p-0" th:id="'redactTask'+${task.getId()}"
                                                  tabindex="-1"
@@ -149,7 +180,7 @@
                                                                            th:value="${task.getTitle()}" name="title"/>
                                                                 </div>
                                                                 <div class="form-group card-body">
-                                                                    <textarea class="form-control" id="descAtChanging"
+                                                                    <textarea maxlength="1000" class="form-control" id="descAtChanging"
                                                                               th:value="${task.getDescription()}"
                                                                               rows="3" name="description"></textarea>
                                                                 </div>
@@ -158,6 +189,8 @@
                                                                            th:value="${task.getId()}">
                                                                     <input type="hidden" name="parentId"
                                                                            th:value="${currentCategory.id}">
+                                                                    <input type="hidden" name="updateDate"
+                                                                           th:value="${#temporals.format(#temporals.createNow(), 'dd.MMM.yyyy HH:mm:ss')}">
                                                                     <br>
                                                                     <input type="submit" class="btn btn-primary"
                                                                            value="Принять"/>
@@ -173,19 +206,17 @@
                                 </div>
                             </th:block>
                             <div class="container-fluid m-2">
-                                <!--Блок, который хочу скрыть-->
+                                <!--Добавление таски-->
                                 <div th:switch="${currentCategory.id}" id="addNewTask" style="display:none">
                                     <p th:case="null"></p>
                                     <form th:case="*" th:action="@{/addTask}" method="post" id="newTaskForm"
                                           class="input-group mb-3 card">
                                         <div class="form-group card-header">
-                                            <!--<label for="newTitleForm">Название заметки</label>-->
                                             <input type="text" class="form-control" placeholder="Название"
                                                    id="newTitleForm"
                                                    aria-label="Новый заголовок" name="title"/>
                                         </div>
                                         <div class="form-group card-body">
-                                            <!--<label for="newDescriptionForm">Текст заметки</label>-->
                                             <textarea class="form-control" id="newDescriptionForm" rows="3"
                                                       name="description" maxlength="1000">
                                                         </textarea>
@@ -194,6 +225,8 @@
                                         <div class="form-group card-footer">
                                             <input type="hidden" name="parentId"
                                                    th:value="${currentCategory.id}">
+                                            <input type="hidden" name="createDate"
+                                                   th:value="${#temporals.format(#temporals.createNow(), 'dd.MMM.yyyy HH:mm:ss')}">
                                             <input type="submit" class="btn btn-primary btn-sm"
                                                    value="Создать"/>
                                             <button class="btn btn-danger btn-sm" onclick="(document.getElementById('newTaskForm').reset());
@@ -210,7 +243,7 @@
                         <div th:switch="${currentCategory.id}">
                             <p th:case="null"></p>
                             <div th:case="*">
-                                <button type="button" class="btn btn-primary m-3" id="addTaskButton"
+                                <button type="button" class="btn btn-success m-3" id="addTaskButton"
                                         onclick="(document.getElementById('addNewTask').style.display='block');
                                         (document.getElementById('addTaskButton').style.display='none')">
                                     Добавить задачу

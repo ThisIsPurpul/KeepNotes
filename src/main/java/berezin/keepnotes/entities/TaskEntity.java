@@ -1,5 +1,8 @@
 package berezin.keepnotes.entities;
 
+import org.hibernate.annotations.Type;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -13,6 +16,7 @@ public class TaskEntity {
     private Long id;
     private Long parentId;
     private String title;
+    @Column(length=1000)
     private String description;
     private Boolean done;
     @Temporal(TemporalType.TIMESTAMP)
@@ -89,6 +93,22 @@ public class TaskEntity {
     }
     public CategoryEntity getCtg() {
         return ctg;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+    @DateTimeFormat(pattern="dd.MMM.yyyy HH:mm:ss")
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+    @DateTimeFormat(pattern="dd.MMM.yyyy HH:mm:ss")
+    public Date getUpdateDate() {
+        return updateDate;
     }
 }
 
