@@ -25,12 +25,12 @@
         <div class="col-2 bg-dark">
             <div class="container pt-5">
                 <ul th:each="category: ${categories}" class="list-group list-group-flush">
-                    <li class="list-group-item bg-dark">
+                    <li class="list-group-item bg-dark p-0 m-0">
                         <form th:action="@{/deleteCategory}" method="post"
                               class="input-group row justify-content-between p-1 mr-0 ml-0">
-                            <div class="col-auto p-0">
-                                <h5><a class="text-light" th:href="@{/category/{id}(id=${category.getId()})}"
-                                       th:utext="${category.getName()}"></a></h5>
+                            <div class="col-auto p-1">
+                                <h6><a class="text-light" th:href="@{/category/{id}(id=${category.getId()})}"
+                                       th:utext="${category.getName()}"></a></h6>
                                 <input type="hidden" name="id" th:value="${category.getId()}">
                             </div>
                             <div class="col-auto p-0">
@@ -47,7 +47,8 @@
                     </li>
                 </ul>
                 <form action="#" th:action="@{/addCategory}" method="post" class="input-group mt-3">
-                    <input type="text" class="form-control" maxlength="15" placeholder="Новая категория" aria-label="Новый тег" name="name"/>
+                    <input type="text" class="form-control" maxlength="15" placeholder="Новая категория"
+                           aria-label="Новый тег" name="name"/>
                     <div class="input-group-append">
                         <input type="submit" class="btn btn-outline-secondary" value="+"/>
                     </div>
@@ -69,7 +70,7 @@
                                             <h3><p th:utext="${currentCategory.getName()}"></h3>
                                         </div>
                                         <div class="col-6 text-right">
-                                            <button type="button" class="btn btn-primary col-6"
+                                            <button type="button" class="btn btn-info btn-sm col-6"
                                                     data-toggle="modal"
                                                     data-target="#redactModal">
                                                 Редактировать
@@ -108,46 +109,53 @@
                         <div class="row">
                             <th:block th:each="task: ${tasks}">
                                 <div class="container-fluid m-2  col-12">
-                                    <!--Карточка задачи-->
+                                    <!--Карточка заметки-->
                                     <div class="card">
                                         <div class="card-header pb-0">
                                             <div class="row justify-content-between">
                                                 <div class="col-6">
-                                                    <h5><p th:utext="${task.getTitle()}" ></p></h5>
+                                                    <h5><p th:utext="${task.getTitle()}"></p></h5>
                                                 </div>
                                                 <div class="col-6">
                                                     <!--Дата-->
                                                     <p class="card-text text-right m-0">
-                                                        <small class="text-muted" th:text="${#dates.format(task.createDate, 'dd MMM yyyy HH:mm:ss')}">
+                                                        <small class="text-muted"
+                                                               th:text="${#dates.format(task.createDate, 'dd MMM yyyy HH:mm:ss')}">
                                                         </small>
                                                     </p>
                                                     <th:block th:switch="${task.updateDate}">
                                                         <p th:case="null"></p>
                                                         <!--Дата изменения-->
                                                         <p th:case="*" class="card-text text-right m-0 mb-2">
-                                                            <small href="#" class="text-light badge badge-pill badge-secondary" data-toggle="tooltip"
+                                                            <small href="#"
+                                                                   class="text-light badge badge-pill badge-secondary"
+                                                                   data-toggle="tooltip"
                                                                    th:title="'Изменено ' + ${#dates.format(task.updateDate, 'dd MMM yyyy HH:mm:ss')}">
-                                                                Ред
+                                                                ред
                                                             </small>
                                                         </p>
                                                     </th:block>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="card-body p-3">
-                                            <p th:utext="${task.getDescription()}"></p>
+                                        <div class="card-body p-0">
+                                            <textarea class="m-2" rows="3" readonly
+                                                      th:utext="${task.getDescription()}"
+                                                      style="border: none; outline:none; width:98%"></textarea>
                                         </div>
                                         <div class="card-footer p-3">
-                                            <form th:action="@{/deleteTask}" id="formInTask" method="post" class="input-group m-0 p-0">
+                                            <form th:action="@{/deleteTask}" th:id="'taskForm' + ${task.getId()}"
+                                                  method="post" class="input-group m-0 p-0">
                                                 <input type="hidden" name="id" th:value="${task.getId()}">
                                                 <input type="hidden" name="parentId" th:value="${currentCategory.id}">
                                             </form>
                                             <div class="row justify-content-between">
                                                 <div class="col-1">
-                                                    <!--Кнопка редактирования задачи-->
+                                                    <!--Кнопка редактирования заметки-->
                                                     <th:block th:switch="${currentCategory.id}">
                                                         <div th:case="null"></div>
-                                                        <button form="formInTask" th:case="*" type="button" class="btn btn-primary btn-sm"
+                                                        <button th:form="'taskForm' + ${task.getId()}" th:case="*"
+                                                                type="button" class="btn btn-primary btn-sm"
                                                                 data-toggle="modal"
                                                                 th:data-target="'#'+'redactTask'+${task.getId()}">
                                                             Изменить
@@ -155,10 +163,11 @@
                                                     </th:block>
                                                 </div>
                                                 <div class="col-1">
-                                                    <input form="formInTask" type="submit" class="btn btn-danger btn-sm mr-3" value=" X "/>
+                                                    <input th:form="'taskForm' + ${task.getId()}" type="submit"
+                                                           class="btn btn-danger btn-sm mr-3" value=" X "/>
                                                 </div>
                                             </div>
-                                            <!--Модальное окно редактирования задачи-->
+                                            <!--Модальное окно редактирования заметки-->
                                             <div class="modal fade p-0" th:id="'redactTask'+${task.getId()}"
                                                  tabindex="-1"
                                                  role="dialog"
@@ -166,7 +175,7 @@
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5 class="modal-title">Редактирование задачи</h5>
+                                                            <h5 class="modal-title">Редактирование заметки</h5>
                                                             <button type="button" class="close" data-dismiss="modal"
                                                                     aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
@@ -180,9 +189,10 @@
                                                                            th:value="${task.getTitle()}" name="title"/>
                                                                 </div>
                                                                 <div class="form-group card-body">
-                                                                    <textarea maxlength="1000" class="form-control" id="descAtChanging"
-                                                                              th:value="${task.getDescription()}"
-                                                                              rows="3" name="description"></textarea>
+                                                                    <textarea maxlength="1000" class="form-control"
+                                                                              id="descAtChanging"
+                                                                              th:text="${task.getDescription()}"
+                                                                              rows="5" name="description"></textarea>
                                                                 </div>
                                                                 <div class="form-group card-footer">
                                                                     <input type="hidden" name="id"
@@ -217,7 +227,7 @@
                                                    aria-label="Новый заголовок" name="title"/>
                                         </div>
                                         <div class="form-group card-body">
-                                            <textarea class="form-control" id="newDescriptionForm" rows="3"
+                                            <textarea class="form-control" id="newDescriptionForm" rows="4"
                                                       name="description" maxlength="1000">
                                                         </textarea>
                                         </div>
@@ -239,14 +249,15 @@
                                 <!--   -->
                             </div>
                         </div>
-                        <!--Кнопка добавления задачи-->
+                        <!--Кнопка добавления заметки-->
                         <div th:switch="${currentCategory.id}">
                             <p th:case="null"></p>
                             <div th:case="*">
                                 <button type="button" class="btn btn-success m-3" id="addTaskButton"
                                         onclick="(document.getElementById('addNewTask').style.display='block');
-                                        (document.getElementById('addTaskButton').style.display='none')">
-                                    Добавить задачу
+                                        (document.getElementById('addTaskButton').style.display='none');
+                                        (document.getElementById('newDescriptionForm').value='')">
+                                    Добавить заметку
                                 </button>
                             </div>
                         </div>
@@ -258,5 +269,6 @@
     </div>
 </div>
 </body>
+
 </html>
 

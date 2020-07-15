@@ -86,7 +86,6 @@ public class TaskView {
         //taskRepository.delete(taskRepository.findTaskById(deleteTask.getId()));
 
         taskRepository.deleteById(deleteTask.getId());
-        System.out.println(taskRepository.findTaskById(deleteTask.getId()));
 
         if (deleteTask.getParentId() != null) {
             return "redirect:/category/" + deleteTask.getParentId();
